@@ -1,6 +1,6 @@
 ---
 name: ce-dart-ffi-reviewer
-description: Conditional code-review persona, selected when the diff touches Dart FFI (`dart:ffi`) — `Pointer`, `Struct`/`Union`, `@Native`/`Native.addressOf`, `NativeCallable`, `lookupFunction`, `DynamicLibrary`, or `package:ffi` allocators (`malloc`/`calloc`/`Arena`/`Utf8`). Reviews for native memory safety, pointer lifetime, C-to-Dart type/ABI correctness, string marshalling, callback/isolate threading, and library loading.
+description: 'Conditional code-review persona, selected when the diff touches Dart FFI (`dart:ffi`) — `Pointer`, `Struct`/`Union`, `@Native`/`Native.addressOf`, `NativeCallable`, `lookupFunction`, `DynamicLibrary`, or `package:ffi` allocators (`malloc`/`calloc`/`Arena`/`Utf8`). Reviews for native memory safety, pointer lifetime, C-to-Dart type/ABI correctness, string marshalling, callback/isolate threading, and library loading.'
 model: inherit
 tools: Read, Grep, Glob, Bash, Write
 color: orange
