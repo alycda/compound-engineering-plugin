@@ -10,7 +10,7 @@ After installing, run `/ce-setup` in any project. It diagnoses your environment,
 
 | Component | Count |
 |-----------|-------|
-| Agents | 50+ |
+| Agents | 45+ |
 | Skills | 38+ |
 
 ## Skills
@@ -113,9 +113,11 @@ Agents are specialized subagents invoked by skills — you typically don't call 
 | `ce-architecture-strategist` | Analyze architectural decisions and compliance |
 | `ce-code-simplicity-reviewer` | Final pass for simplicity and minimalism |
 | `ce-correctness-reviewer` | Logic errors, edge cases, state bugs |
+| `ce-dart-ffi-reviewer` | Dart FFI review -- native memory safety, pointer lifetime, C-to-Dart type/ABI correctness, string marshalling, NativeCallable/isolate threading, library loading |
 | `ce-data-integrity-guardian` | Database migrations and data integrity |
 | `ce-data-migration-reviewer` | Schema drift, migration safety, mapping verification, deploy-window checks |
 | `ce-deployment-verification-agent` | Create Go/No-Go deployment checklists for risky data changes |
+| `ce-flutter-reviewer` | Dart and Flutter code review -- widget rebuilds, state management, controller disposal, BuildContext-across-async hazards, null-safety, accessibility |
 | `ce-julik-frontend-races-reviewer` | Review JavaScript/Stimulus code for race conditions |
 | `ce-maintainability-reviewer` | Coupling, complexity, naming, dead code |
 | `ce-pattern-recognition-specialist` | Analyze code for patterns and anti-patterns |

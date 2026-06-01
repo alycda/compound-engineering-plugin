@@ -502,6 +502,8 @@ describe("ce-code-review contract", () => {
       "ce-previous-comments-reviewer",
       "ce-julik-frontend-races-reviewer",
       "ce-swift-ios-reviewer",
+      "ce-flutter-reviewer",
+      "ce-dart-ffi-reviewer",
       "ce-agent-native-reviewer",
     ]
 
@@ -525,7 +527,12 @@ describe("ce-code-review contract", () => {
       "plugins/compound-engineering/skills/ce-code-review/references/persona-catalog.md",
     )
 
-    for (const agent of ["ce-julik-frontend-races-reviewer", "ce-swift-ios-reviewer"]) {
+    for (const agent of [
+      "ce-julik-frontend-races-reviewer",
+      "ce-swift-ios-reviewer",
+      "ce-flutter-reviewer",
+      "ce-dart-ffi-reviewer",
+    ]) {
       expect(content).toContain(agent)
       expect(catalog).toContain(agent)
     }
@@ -553,6 +560,14 @@ describe("ce-code-review contract", () => {
       {
         path: "plugins/compound-engineering/agents/ce-swift-ios-reviewer.md",
         reviewer: "swift-ios",
+      },
+      {
+        path: "plugins/compound-engineering/agents/ce-flutter-reviewer.md",
+        reviewer: "flutter",
+      },
+      {
+        path: "plugins/compound-engineering/agents/ce-dart-ffi-reviewer.md",
+        reviewer: "dart-ffi",
       },
     ]
 
@@ -592,6 +607,8 @@ describe("ce-code-review contract", () => {
       "ce-previous-comments-reviewer",
       "ce-julik-frontend-races-reviewer",
       "ce-swift-ios-reviewer",
+      "ce-flutter-reviewer",
+      "ce-dart-ffi-reviewer",
     ]
 
     for (const persona of personas) {

@@ -127,7 +127,7 @@ Routing rules:
 
 ## Reviewers
 
-14 reviewer personas in layered conditionals, plus CE-specific agents. See the persona catalog included below for the full catalog.
+16 reviewer personas in layered conditionals, plus CE-specific agents. See the persona catalog included below for the full catalog.
 
 **Always-on (every review):**
 
@@ -158,6 +158,8 @@ Routing rules:
 |-------|---------------------------|
 | `ce-julik-frontend-races-reviewer` | Stimulus/Turbo controllers, DOM events, timers, animations, or async UI flows |
 | `ce-swift-ios-reviewer` | Swift files, SwiftUI views, UIKit controllers, entitlements, privacy manifests, Core Data models, SPM manifests, storyboards/XIBs, or semantic build-setting/target/signing changes in .pbxproj |
+| `ce-flutter-reviewer` | Dart files, Flutter widgets, state-management code (Provider/Riverpod/Bloc/Cubit/GetX), `pubspec.yaml`, or platform-channel Dart — **not** generated Dart (`*.g.dart`, `*.freezed.dart`) alone |
+| `ce-dart-ffi-reviewer` | `dart:ffi` usage — `Pointer`, `Struct`/`Union`, `@Native`/`Native.addressOf`, `NativeCallable`, `lookupFunction`, `DynamicLibrary`, or `package:ffi` allocators (`malloc`/`calloc`/`Arena`/`Utf8`) — **not** ffigen-generated bindings alone |
 
 **CE conditional (migration-specific):**
 
