@@ -1,6 +1,6 @@
 # Persona Catalog
 
-14 reviewer personas organized into always-on, cross-cutting conditional, and stack-specific conditional layers, plus CE-specific agents. The orchestrator uses this catalog to select which reviewers to spawn for each review.
+15 reviewer personas organized into always-on, cross-cutting conditional, and stack-specific conditional layers, plus CE-specific agents. The orchestrator uses this catalog to select which reviewers to spawn for each review.
 
 ## Always-on (4 personas + 2 CE agents)
 
@@ -36,7 +36,7 @@ Spawned when the orchestrator identifies relevant patterns in the diff. The orch
 | `adversarial` | `ce-adversarial-reviewer` | Diff has >=50 changed non-test, non-generated, non-lockfile lines, OR touches auth, payments, data mutations, external API integrations, or other high-risk domains |
 | `previous-comments` | `ce-previous-comments-reviewer` | **PR-only AND comment-gated.** Reviewing a PR that has existing review comments or review threads from prior review rounds. Skip entirely when no PR metadata was gathered in Stage 1, OR when Stage 1's `hasPriorComments` flag is false (no `reviews` and no `comments` on the PR). |
 
-## Stack-Specific Conditional (2 personas)
+## Stack-Specific Conditional (3 personas)
 
 These reviewers cover runtime behavior the always-on personas do not specialize in. Structural and maintainability concerns live in the always-on `maintainability` persona — do not spawn extra stack reviewers for philosophy or convention-only passes.
 
@@ -44,6 +44,7 @@ These reviewers cover runtime behavior the always-on personas do not specialize 
 |---------|-------|---------------------------|
 | `julik-frontend-races` | `ce-julik-frontend-races-reviewer` | Stimulus/Turbo controllers, DOM event wiring, timers, async UI flows, animations, or frontend state transitions with race potential |
 | `swift-ios` | `ce-swift-ios-reviewer` | Swift files, SwiftUI views, UIKit controllers, `.entitlements`, `PrivacyInfo.xcprivacy`, `.xcdatamodeld`, `Package.swift`, `Package.resolved`, storyboards, XIBs, or semantic build-setting / target-membership / code-signing changes in `.pbxproj` |
+| `flutter` | `ce-flutter-reviewer` | `.dart` files, Flutter widgets, state-management code (Provider/Riverpod/Bloc/Cubit/GetX), `pubspec.yaml`, or the Dart side of platform channels (`MethodChannel`). Reviews the Dart/Flutter layer only — native platform-channel code (Swift/Kotlin/JS) belongs to the platform-specific personas. Do **not** spawn for generated Dart (`*.g.dart`, `*.freezed.dart`, `*.gr.dart`) or `pubspec.lock` churn alone |
 
 ## CE Conditional Agents (migration-specific)
 
