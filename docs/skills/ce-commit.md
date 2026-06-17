@@ -1,6 +1,6 @@
 # `ce-commit`
 
-> Create a single, well-crafted git commit from working tree changes — convention-aware, sensitive-file-safe, with logical splitting when concerns are clearly distinct.
+> Create a single, well-crafted commit from working tree changes — convention-aware, sensitive-file-safe, with logical splitting when concerns are clearly distinct. Works with both Git and Jujutsu (jj), detecting which the repo uses.
 
 `ce-commit` is the **commit-only** skill — sibling to `/ce-commit-push-pr` for the case where you want commits without pushing or opening a PR. It picks up your repo's existing commit conventions (project instructions first, then recent commit history, then conventional-commits as fallback), groups changed files by naturally distinct concerns (no `git add -p`, file level only), and avoids `git add -A` / `git add .` so sensitive files (`.env`, credentials, build artifacts) don't sneak in.
 
@@ -101,6 +101,10 @@ The quoted sentinel (`'EOF'`) prevents `$VAR`, backticks, and embedded `EOF` fro
 
 The skill writes subject lines in imperative mood, focused on motivation rather than mechanical description. "Fix double-submit on checkout" beats "Update checkout.rb." The body explains motivation, trade-offs, or context a future reader would need; it's omitted for obvious single-purpose changes.
 
+### 8. Git *or* Jujutsu, auto-detected
+
+A `jj root` probe at the top of the skill detects whether the repo is a Jujutsu (jj) workspace. If it is, the skill routes to a jj-native workflow (loaded on demand from `references/jujutsu.md`) instead of the git path. The same goals carry over — convention detection, file-level logical splitting, *why*-focused messages — mapped onto jj's model: there's no staging area, so groups are selected with filesets at commit time (`jj commit file1 file2 -m …`); the working copy is itself a commit (`@`), so a single commit is just `jj describe -m …`; and because committing never moves a bookmark, jj has no detached-HEAD or accidental-default-branch footgun to guard against. Non-jj repos are unaffected — the jj reference never loads, so the common git path stays lean.
+
 ---
 
 ## Quick Example
@@ -174,6 +178,7 @@ There are no arguments. Convention detection, file grouping, and message composi
 
 | Step | Action |
 |------|--------|
+| 0 | Route by VCS — detect Jujutsu (`jj root`); if jj, follow `references/jujutsu.md` instead |
 | 1 | Gather context (git status, diff, branch, recent commits, default branch) |
 | 2 | Determine commit message convention (instructions > recent history > conventional-commits) |
 | 3 | Consider logical commits (file-level split when concerns are clearly distinct) |
@@ -198,6 +203,9 @@ Because most repos with branch protection will reject a default-branch commit, a
 
 **What if I want to push and PR after?**
 Use `/ce-commit-push-pr` for the full flow, or run `git push` and `gh pr create` manually after this skill commits.
+
+**Does it work with Jujutsu (jj)?**
+Yes. The skill probes for a jj workspace (`jj root`) and, when it finds one, follows a jj-native workflow: `jj describe` for a single commit, `jj commit <filesets>` to split groups at the file level, and `jj log` to confirm. There's no flag to set — detection is automatic, and git repos are unaffected.
 
 ---
 

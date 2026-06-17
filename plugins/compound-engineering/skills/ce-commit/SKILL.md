@@ -1,17 +1,20 @@
 ---
 name: ce-commit
-description: Create a git commit with a clear, value-communicating message. Use when the user says "commit", "commit this", "save my changes", "create a commit", or wants to commit staged or unstaged work. Produces well-structured commit messages that follow repo conventions when they exist, and defaults to conventional commit format otherwise.
+description: Create a commit with a clear, value-communicating message. Use when the user says "commit", "commit this", "save my changes", "create a commit", or wants to commit staged or unstaged work. Produces well-structured commit messages that follow repo conventions when they exist, and defaults to conventional commit format otherwise. Detects whether the repo uses Git or Jujutsu (jj) and adapts.
 ---
 
-# Git Commit
+# Commit
 
-Create a single, well-crafted git commit from the current working tree changes.
+Create a single, well-crafted commit from the current working tree changes. Works with Git and Jujutsu (jj), detected at Step 0.
 
 ## Context
 
 **On platforms other than Claude Code**, skip to the "Context fallback" section below and run the command there to gather context.
 
-**In Claude Code**, the five labeled sections below (Git status, Working tree diff, Current branch, Recent commits, Remote default branch) contain pre-populated data. Use them directly throughout this skill -- do not re-run these commands.
+**In Claude Code**, the labeled sections below (Version control system, Git status, Working tree diff, Current branch, Recent commits, Remote default branch) contain pre-populated data. Use them directly throughout this skill -- do not re-run these commands.
+
+**Version control system:**
+!`jj root 2>/dev/null || echo '__NOT_JJ__'`
 
 **Git status:**
 !`git status`
@@ -35,12 +38,18 @@ Create a single, well-crafted git commit from the current working tree changes.
 Run this single command to gather all context:
 
 ```bash
-printf '=== STATUS ===\n'; git status; printf '\n=== DIFF ===\n'; git diff HEAD; printf '\n=== BRANCH ===\n'; git branch --show-current; printf '\n=== LOG ===\n'; git log --oneline -10; printf '\n=== DEFAULT_BRANCH ===\n'; git rev-parse --abbrev-ref origin/HEAD 2>/dev/null || echo '__DEFAULT_BRANCH_UNRESOLVED__'
+printf '=== VCS ===\n'; jj root 2>/dev/null || echo '__NOT_JJ__'; printf '\n=== STATUS ===\n'; git status; printf '\n=== DIFF ===\n'; git diff HEAD; printf '\n=== BRANCH ===\n'; git branch --show-current; printf '\n=== LOG ===\n'; git log --oneline -10; printf '\n=== DEFAULT_BRANCH ===\n'; git rev-parse --abbrev-ref origin/HEAD 2>/dev/null || echo '__DEFAULT_BRANCH_UNRESOLVED__'
 ```
+
+If the VCS line resolved to a path (a Jujutsu workspace root) rather than `__NOT_JJ__`, the git probes may be empty (a non-colocated jj repo has no git working tree) -- ignore them and follow the Jujutsu workflow below.
 
 ---
 
 ## Workflow
+
+### Step 0: Route by version control system
+
+If the **Version control system** probe above resolved to a path (a Jujutsu workspace root) rather than `__NOT_JJ__`, this repository uses Jujutsu. Read `references/jujutsu.md` and follow that workflow for the rest of this skill -- the git-specific steps below do not apply. Otherwise (the probe printed `__NOT_JJ__`), continue with the git workflow below.
 
 ### Step 1: Gather context
 
